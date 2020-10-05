@@ -198,7 +198,19 @@ def handle_input_example_and_signature(
 
 def universal_autolog(
     log_input_example=False, log_model_signature=True
-):  # pylint: disable=unused-argument
+): 
+    """
+    Enable autologging for all supported libraries. See <insert tracking.autolog link here> for a
+    list of supported autologging integrations.
+
+    :param log_input_example: whether to log a sample of the training data as an example for future
+                              reference. Applied to all autologging integrations supporting input
+                              example and model signature.
+    :param log_model_signature: whether to log the signature of the inputs and outputs to the model.
+                                Applied to all autologging integrations supporting input example
+                                and model signature.
+    """
+    # pylint: disable=unused-argument
     # getargvalues isnt actually deprecated
     # https://docs.python.org/3/library/inspect.html#inspect.getargvalues
     arg_info = inspect.getargvalues(inspect.currentframe())  # pylint: disable=deprecated-method
