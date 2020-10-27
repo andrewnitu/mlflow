@@ -24,6 +24,7 @@ import tempfile
 import inspect
 import logging
 import gorilla
+import time 
 from copy import deepcopy
 
 import mlflow
@@ -426,9 +427,21 @@ def autolog(
         # training model
         model = original(*args, **kwargs)
 
+        total_time = 0
+        total_network_calls = 0
+
         # logging metrics on each iteration.
         for idx, metrics in enumerate(eval_results):
+            start = time.time()
             try_mlflow_log(mlflow.log_metrics, metrics, step=idx)
+            end = time.time()
+
+            total_time = total_time + end - start
+            total_network_calls = total_network_calls + 1
+
+        print("TIMING after")
+        print(total_time)
+        print(total_network_calls)
 
         # If early_stopping_rounds is present, logging metrics at the best iteration
         # as extra metrics with the max step + 1.
